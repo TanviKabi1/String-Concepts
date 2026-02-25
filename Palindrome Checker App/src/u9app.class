@@ -1,0 +1,25 @@
+import java.util.Scanner;
+
+public class u9app {
+    public static void main(String[] args) {
+
+    String input = "racecar";
+
+    boolean isPalindrome = isPalindromeRecursive(input, 0, input.length() - 1);
+
+    System.out.println("UC9 Input : " + input);
+    System.out.println("Is Palindrome? : " + isPalindrome + "\n");
+}
+
+// Recursive Helper Method
+public static boolean isPalindromeRecursive(String str, int start, int end) {
+
+    // Base condition
+    if (start >= end) {
+        return true;
+    }
+
+    // If mismatch found
+    if (str.charAt(start) != str.charAt(end)) {
+        return false;
+    }
