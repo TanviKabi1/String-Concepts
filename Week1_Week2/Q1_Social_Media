@@ -1,0 +1,93 @@
+import java.util.*;
+
+public class Q1_Social_Media {
+
+import java.util.*;
+public class SimpleHashTable {
+static class Entry {
+     String key;
+     String value;
+     Entry next; // For chaining
+
+     Entry(String key, String value) {
+     this.key = key;
+     this.value = value;
+     }
+}
+
+private Entry[] buckets;
+private Set<String> registeredUsers;
+private int size = 1000;
+
+public UsernameManager() {
+        buckets = new Entry[capacity];
+        registeredUsers = new HashSet<>();
+
+        registeredUsers.add("john_doe");
+        registeredUsers.add("admin");
+    }
+
+
+private int hash(String key) {
+   return Math.abs(key.hashCode()) % size; }
+
+   private void trackAttempt(String username) {
+           int index = hash(username);
+           Entry head = buckets[index];
+
+           while (head != null) {
+               if (head.key.equals(username)) {
+                   head.value++;
+                   return;
+               }
+               head = head.next;
+           }
+
+           // If not found, add new entry to the chain
+           Entry newEntry = new Entry(username, 1);
+           newEntry.next = buckets[index];
+           buckets[index] = newEntry;
+       }
+
+       // Suggestion logic: Mutates the string and checks availability
+       public List<String> suggestAlternatives(String username) {
+           List<String> suggestions = new ArrayList<>();
+           int i = 1;
+           while (suggestions.size() < 3) {
+               String candidate = username + i;
+               if (!registeredUsers.contains(candidate)) {
+                   suggestions.add(candidate);
+               }
+               i++;
+           }
+           return suggestions;
+       }
+
+       // Find the most attempted username across all buckets
+       public String getMostAttempted() {
+           String mostAttempted = null;
+           int max = 0;
+           for (Entry bucket : buckets) {
+               Entry current = bucket;
+               while (current != null) {
+                   if (current.value > max) {
+                       max = current.value;
+                       mostAttempted = current.key;
+                   }
+                   current = current.next;
+               }
+           }
+           return mostAttempted + " (" + max + " attempts)";
+       }
+
+       public static void main(String[] args) {
+           UsernameManager manager = new UsernameManager();
+
+           System.out.println("Is 'john_doe' available? " + manager.checkAvailability("john_doe"));
+           System.out.println("Suggestions: " + manager.suggestAlternatives("john_doe"));
+
+           manager.checkAvailability("admin");
+           manager.checkAvailability("admin");
+           System.out.println("Most popular attempt: " + manager.getMostAttempted());
+       }
+   }
